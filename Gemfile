@@ -1,13 +1,18 @@
 source 'https://rubygems.org'
 
-gem 'rails', github: "rails/rails"
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
+gem 'rails', '~> 5.1.0.beta1'
 
 gem 'pg'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
 gem "jquery-rails"
-gem 'turbolinks', github: 'rails/turbolinks'
+gem 'turbolinks', '~> 5'
 gem 'puma'
 
 group :development, :test do
