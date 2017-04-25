@@ -22,7 +22,7 @@ namespace "docker" do
       within release_path do
         docker_base = ["docker-compose", "-p", fetch(:application), "-f", "docker-compose.yml", "-f", "config/docker-compose/production.yml"]
         execute(*docker_base, "up", "-d", "--build", "--remove-orphans")
-        execute(*docker_base, "run", "--rm", "web", "bin/rails db:setup")
+        execute(*docker_base, "run", "--rm", "web", "bin/rails db:create", "2>&1")
         execute(*docker_base, "run", "--rm", "web", "bin/rails db:migrate")
       end
     end
