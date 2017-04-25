@@ -7,7 +7,7 @@ services:
       LETSENCRYPT_EMAIL: support@standout.se
       LETSENCRYPT_HOST: aprilevent.standout.se
       VIRTUAL_HOST: aprilevent.standout.se
-      VIRTUAL_NETWORK: proxy-tier
+      VIRTUAL_NETWORK: todoapp_proxy-tier
       RAILS_ENV: production
     networks:
       - proxy-tier
