@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+  web:
+    build: .
+    depends_on:
+      - db
+    networks:
+      - app
+  db:
+    image: postgres:9.6
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - app
+
+networks:
+  app:
+volumes:
+  dbdata:
