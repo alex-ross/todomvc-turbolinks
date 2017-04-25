@@ -5,10 +5,6 @@ services:
     build: .
     depends_on:
       - db
-    volumes:
-      - .:/var/www/app
-    ports:
-      - "3000:3000"
 
   db:
     image: postgres:9.6
