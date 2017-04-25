@@ -29,4 +29,4 @@ namespace "docker" do
   end
 end
 
-after "deploy:updating", "docker:up"
+after "deploy:updating", "docker:update"
