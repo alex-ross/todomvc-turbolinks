@@ -5,15 +5,25 @@ services:
     restart: always
     environment:
       RAILS_ENV: production
-      LETSENCRYPT_EMAIL: support@standout.se
-      LETSENCRYPT_HOST: aprilevent.standout.se
-      VIRTUAL_HOST: aprilevent.standout.se
+    networks:
+      - app
   db:
     restart: always
 
-
-
-
+  http:
+    image: standout/nginx-for-rails:1.0.0
+    links:
+      - web
+    volumes_from:
+      - web
+    networks:
+      - proxy-tier
+      - app
+    environment:
+      LETSENCRYPT_EMAIL: support@standout.se
+      LETSENCRYPT_HOST: aprilevent.standout.se
+      VIRTUAL_HOST: aprilevent.standout.se
+    restart: always
 
   nginx-proxy:
     container_name: nginx-proxy
@@ -53,3 +63,4 @@ volumes:
 
 networks:
   proxy-tier:
+  app:
