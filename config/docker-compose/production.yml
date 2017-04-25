@@ -5,8 +5,51 @@ services:
     restart: always
     environment:
       RAILS_ENV: production
-    ports:
-      - "80:3000"
+      LETSENCRYPT_EMAIL: support@standout.se
+      LETSENCRYPT_HOST: aprilevent.standout.se
+      VIRTUAL_HOST: aprilevent.standout.se
   db:
     restart: always
 
+
+
+
+
+  nginx-proxy:
+    container_name: nginx-proxy
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - "80:80" # HTTP port
+      - "443:443" # HTTPS port
+    volumes:
+      # To read certificates created by Let's Encrypt'
+      - "ssl-cert:/etc/nginx/certs:ro"
+      # To change the configuration of vhosts (need by Let's Encrypt)
+      - "/etc/nginx/vhost.d"
+      # To write challenge files.
+      - "/usr/share/nginx/html"
+      # Allow the container to do docker tasks
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - proxy-tier
+
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt-nginx-proxy-companion
+    restart: always
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      # To create and renew certificates from Let's Encrypt
+      - "ssl-cert:/etc/nginx/certs:rw"
+      # Allow the container to do docker tasks
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - proxy-tier
+
+volumes:
+  ssl-cert:
+
+networks:
+  proxy-tier:

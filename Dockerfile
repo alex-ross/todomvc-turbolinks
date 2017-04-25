@@ -17,4 +17,11 @@ RUN bundle install
 
 COPY . .
 
+RUN rake RAILS_ENV=production \
+    DATABASE_URL=postgresql://user:pass@db/name \
+    SECRET_TOKEN=foo \
+    assets:precompile
+
+VOLUME ["$APP_PATH/public"]
+
 CMD puma -C config/puma.rb
