@@ -1,1 +1,1 @@
-server "aprilevent", roles: %{app db web}
+server "aprilevent", roles: %w{app db web}
