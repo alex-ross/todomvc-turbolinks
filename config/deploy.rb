@@ -17,7 +17,7 @@ namespace "docker" do
         ]
         execute(*docker_base, "up", "-d", "--build", "--remove-orphans")
         execute(*docker_base, "run", "--rm", "web", "bin/rails db:create", "2>&1")
-        execute(*docker_base, "run", "--rm", "web", "bin/rails db:migrate")
+        execute(*docker_base, "run", "--rm", "web", "bin/rails db:setup")
       end
     end
   end
